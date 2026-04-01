@@ -1,0 +1,172 @@
+#include <iostream>
+using namespace std;
+
+class Complex_Number {
+private:
+    double real_part;
+    double imaginary_part;
+
+public:
+    // Default constructor
+    Complex_Number() {
+        real_part = 0;
+        imaginary_part = 0;
+    }
+
+    // Parameterized constructor
+    Complex_Number(double r, double i) {
+        real_part = r;
+        imaginary_part = i;
+    }
+
+    // Getters
+    double getReal() { return real_part; }
+    double getImag() { return imaginary_part; }
+
+    // Setters
+    void setReal(double r) { real_part = r; }
+    void setImag(double i) { imaginary_part = i; }
+
+    // Operator +
+    Complex_Number operator+(const Complex_Number& other) {
+        return Complex_Number(real_part + other.real_part,
+                              imaginary_part + other.imaginary_part);
+    }
+
+    // Operator -
+    Complex_Number operator-(const Complex_Number& other) {
+        return Complex_Number(real_part - other.real_part,
+                              imaginary_part - other.imaginary_part);
+    }
+
+    // Operator *
+    Complex_Number operator*(const Complex_Number& other) {
+        return Complex_Number(
+            real_part * other.real_part - imaginary_part * other.imaginary_part,
+            real_part * other.imaginary_part + imaginary_part * other.real_part
+        );
+    }
+
+    // Operator +=
+    Complex_Number& operator+=(const Complex_Number& other) {
+        real_part += other.real_part;
+        imaginary_part += other.imaginary_part;
+        return *this;
+    }
+
+    // Operator -=
+    Complex_Number& operator-=(const Complex_Number& other) {
+        real_part -= other.real_part;
+        imaginary_part -= other.imaginary_part;
+        return *this;
+    }
+
+    // Operator *=
+    Complex_Number& operator*=(const Complex_Number& other) {
+        double r = real_part * other.real_part - imaginary_part * other.imaginary_part;
+        double i = real_part * other.imaginary_part + imaginary_part * other.real_part;
+        real_part = r;
+        imaginary_part = i;
+        return *this;
+    }
+
+    // Prefix ++
+    Complex_Number& operator++() {
+        real_part++;
+        imaginary_part++;
+        return *this;
+    }
+
+    // Postfix ++
+    Complex_Number operator++(int) {
+        Complex_Number temp = *this;
+        real_part++;
+        imaginary_part++;
+        return temp;
+    }
+
+    // Prefix --
+    Complex_Number& operator--() {
+        real_part--;
+        imaginary_part--;
+        return *this;
+    }
+
+    // Postfix --
+    Complex_Number operator--(int) {
+        Complex_Number temp = *this;
+        real_part--;
+        imaginary_part--;
+        return temp;
+    }
+
+    // Output <<
+    friend ostream& operator<<(ostream& os, const Complex_Number& c) {
+        os << c.real_part;
+        if (c.imaginary_part >= 0)
+            os << " + " << c.imaginary_part << "i";
+        else
+            os << " - " << -c.imaginary_part << "i";
+        return os;
+    }
+
+    // Input >>
+    friend istream& operator>>(istream& is, Complex_Number& c) {
+        cout << "Enter real part: ";
+        is >> c.real_part;
+        cout << "Enter imaginary part: ";
+        is >> c.imaginary_part;
+        return is;
+    }
+};
+
+int main() {
+    Complex_Number a(2, 3);
+    Complex_Number b(1, -4);
+    Complex_Number result;
+
+    cout << "a = " << a << endl;
+    cout << "b = " << b << endl;
+
+    // Addition (two ways)
+    result = a + b;
+    cout << "a + b = " << result << endl;
+
+    a += b;
+    cout << "a += b -> " << a << endl;
+
+    a = Complex_Number(2, 3); // reset
+
+    // Subtraction (two ways)
+    result = a - b;
+    cout << "a - b = " << result << endl;
+
+    a -= b;
+    cout << "a -= b -> " << a << endl;
+
+    a = Complex_Number(2, 3); // reset
+
+    // Multiplication (two ways)
+    result = a * b;
+    cout << "a * b = " << result << endl;
+
+    a *= b;
+    cout << "a *= b -> " << a << endl;
+
+    // Increment
+    cout << "++a = " << ++a << endl;
+    cout << "a++ = " << a++ << endl;
+    cout << "After a++ -> " << a << endl;
+
+    // Decrement
+    cout << "--a = " << --a << endl;
+    cout << "a-- = " << a-- << endl;
+    cout << "After a-- -> " << a << endl;
+
+    // Input
+    Complex_Number userInput;
+    cin >> userInput;
+    cout << "You entered: " << userInput << endl;
+
+    return 0;
+}
